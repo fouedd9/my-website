@@ -1,10 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { Icon } from "@iconify/react";
+import PrismBackground from "@/components/backgrounds/PrismBackground";
 
 interface StatItem {
   target: number;
   suffix?: string;
   label: string;
+}
+
+interface AnimatedCounterProps {
+  target: number;
+  suffix?: string;
 }
 
 const stats: StatItem[] = [
@@ -24,14 +30,11 @@ const stats: StatItem[] = [
   },
 ];
 
-interface AnimatedCounterProps {
-  target: number;
-  suffix?: string;
-}
-
 function AnimatedCounter({ target, suffix = "" }: AnimatedCounterProps) {
   const [count, setCount] = useState<number>(0);
+
   const counterRef = useRef<HTMLDivElement | null>(null);
+
   const hasAnimated = useRef<boolean>(false);
 
   useEffect(() => {
@@ -39,25 +42,34 @@ function AnimatedCounter({ target, suffix = "" }: AnimatedCounterProps) {
 
     if (!element) return;
 
+    let timer: number | undefined;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (!entry.isIntersecting || hasAnimated.current) return;
+        if (!entry.isIntersecting || hasAnimated.current) {
+          return;
+        }
 
         hasAnimated.current = true;
 
         let current = 0;
         const increment = target / 40;
 
-        const timer = window.setInterval(() => {
+        timer = window.setInterval(() => {
           current += increment;
 
           if (current >= target) {
             current = target;
-            window.clearInterval(timer);
+
+            if (timer) {
+              window.clearInterval(timer);
+            }
           }
 
           setCount(Math.floor(current));
         }, 40);
+
+        observer.unobserve(element);
       },
       {
         threshold: 0.5,
@@ -68,13 +80,17 @@ function AnimatedCounter({ target, suffix = "" }: AnimatedCounterProps) {
 
     return () => {
       observer.disconnect();
+
+      if (timer) {
+        window.clearInterval(timer);
+      }
     };
   }, [target]);
 
   return (
     <div
       ref={counterRef}
-      className="stat-number text-2xl md:text-3xl font-semibold text-white"
+      className="stat-number text-2xl font-semibold text-white sm:text-3xl"
     >
       {count}
       {suffix}
@@ -86,65 +102,19 @@ function Hero2() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col items-center justify-center px-6 overflow-hidden"
+      className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-4 pb-20 pt-24 sm:px-6 sm:pb-24"
     >
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-indigo-500/10 blur-[120px] pointer-events-none" />
+      <PrismBackground />
 
-      <div className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] rounded-full bg-purple-500/8 blur-[100px] pointer-events-none" />
-
-      <svg
-        className="absolute inset-0 w-full h-full pointer-events-none opacity-30"
-        viewBox="0 0 1200 800"
-        fill="none"
-        aria-hidden="true"
-      >
-        <path
-          className="beam-path"
-          d="M0 400 Q300 200 600 400 T1200 400"
-          stroke="url(#beamGradient)"
-          strokeWidth="1"
-        />
-
-        <path
-          className="beam-path"
-          d="M0 500 Q400 300 600 500 T1200 300"
-          stroke="url(#beamGradientSecondary)"
-          strokeWidth="0.5"
-          style={{
-            animationDelay: "1.5s",
-          }}
-        />
-
-        <defs>
-          <linearGradient id="beamGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#6366f1" stopOpacity="0" />
-            <stop offset="50%" stopColor="#6366f1" stopOpacity="1" />
-            <stop offset="100%" stopColor="#a855f7" stopOpacity="0" />
-          </linearGradient>
-
-          <linearGradient
-            id="beamGradientSecondary"
-            x1="0%"
-            y1="0%"
-            x2="100%"
-            y2="0%"
-          >
-            <stop offset="0%" stopColor="#38bdf8" stopOpacity="0" />
-            <stop offset="50%" stopColor="#818cf8" stopOpacity="0.8" />
-            <stop offset="100%" stopColor="#c084fc" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-      </svg>
-
-      <div className="relative z-10 text-center max-w-4xl mx-auto">
+      <div className="relative z-10 mx-auto w-full max-w-4xl text-center">
         <div className="anim-fade-up delay-200 mb-6">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-xs font-medium text-indigo-300 tracking-wide">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            Disponible pour de nouveaux projets 2 22
+          <span className="glass inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[11px] font-medium tracking-wide text-indigo-300 sm:text-xs">
+            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+            Disponible pour de nouveaux projets
           </span>
         </div>
 
-        <h1 className="anim-clip delay-300 text-5xl md:text-7xl lg:text-8xl font-medium tracking-tighter leading-[0.85]">
+        <h1 className="anim-clip delay-300 text-5xl font-medium leading-[0.88] tracking-tighter sm:text-6xl md:text-7xl lg:text-8xl">
           <span className="gradient-text-static">Foued</span>
 
           <br />
@@ -152,54 +122,55 @@ function Hero2() {
           <span className="gradient-text">Saidane</span>
         </h1>
 
-        <div className="anim-fade-up delay-500 mt-8 flex flex-wrap items-center justify-center gap-3 text-neutral-400 text-base md:text-lg font-light">
+        <div className="anim-fade-up delay-500 mx-auto mt-7 flex max-w-2xl flex-wrap items-center justify-center gap-x-3 gap-y-2 text-sm font-light text-neutral-400 sm:text-base md:text-lg">
           <Icon icon="lucide:code-2" width={20} className="text-indigo-400" />
 
           <span>Développeur FullStack</span>
 
-          <span className="text-zinc-600">|</span>
+          <span className="hidden text-zinc-600 sm:inline">|</span>
 
-          <span className="text-indigo-400 font-medium">React.js</span>
+          <span className="font-medium text-indigo-400">React.js</span>
 
           <span className="text-zinc-600">/</span>
 
-          <span className="text-purple-400 font-medium">Node.js</span>
+          <span className="font-medium text-purple-400">Node.js</span>
         </div>
 
-        <p className="anim-fade-up delay-600 mt-6 text-neutral-500 text-sm md:text-base font-light max-w-2xl mx-auto leading-relaxed">
+        <p className="anim-fade-up delay-600 mx-auto mt-6 max-w-2xl px-2 text-sm font-light leading-relaxed text-neutral-500 sm:text-base">
           7+ ans d&apos;expérience dans la conception de solutions web modernes,
           performantes et maintenables. Intégration de l&apos;IA générative pour
           accélérer le développement.
         </p>
 
-        <div className="anim-fade-up delay-700 mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="anim-fade-up delay-700 mx-auto mt-9 flex w-full max-w-sm flex-col items-stretch justify-center gap-3 sm:max-w-none sm:flex-row sm:items-center">
           <a
+            style={{ color: "black" }}
             href="#contact"
-            className="group px-8 py-3.5 bg-white text-black text-sm font-medium rounded-full hover:bg-neutral-200 transition-all duration-300 flex items-center gap-2"
+            className="group flex w-full items-center justify-center gap-2 rounded-full bg-white px-8 py-3.5 text-sm font-medium text-black transition-all duration-300 hover:bg-neutral-200 sm:w-auto"
           >
             Me contacter
             <Icon
               icon="lucide:arrow-right"
               width={16}
-              className="group-hover:translate-x-1 transition-transform"
+              className="transition-transform group-hover:translate-x-1"
             />
           </a>
 
           <a
             href="#experience"
-            className="px-8 py-3.5 glass text-sm font-medium text-neutral-300 rounded-full hover:text-white hover:border-indigo-500/30 transition-all duration-300 flex items-center gap-2"
+            className="glass flex w-full items-center justify-center gap-2 rounded-full px-8 py-3.5 text-sm font-medium text-neutral-300 transition-all duration-300 hover:border-indigo-500/30 hover:text-white sm:w-auto"
           >
             <Icon icon="lucide:briefcase" width={16} />
             Voir mon parcours
           </a>
         </div>
 
-        <div className="anim-fade-up delay-1000 mt-16 grid grid-cols-3 gap-8 max-w-lg mx-auto">
+        <div className="anim-fade-up delay-1000 mx-auto mt-12 grid w-full max-w-md grid-cols-3 gap-2 sm:mt-16 sm:max-w-lg sm:gap-8">
           {stats.map((stat) => (
-            <div key={stat.label} className="text-center">
+            <div key={stat.label} className="min-w-0 text-center">
               <AnimatedCounter target={stat.target} suffix={stat.suffix} />
 
-              <div className="text-[10px] uppercase tracking-widest text-neutral-500 mt-1">
+              <div className="mt-1 break-words text-[8px] uppercase leading-tight tracking-[0.12em] text-neutral-500 min-[375px]:text-[9px] sm:text-[10px] sm:tracking-widest">
                 {stat.label}
               </div>
             </div>
@@ -207,13 +178,13 @@ function Hero2() {
         </div>
       </div>
 
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 anim-fade delay-1000 flex flex-col items-center gap-2">
+      <div className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 sm:flex">
         <span className="text-[10px] uppercase tracking-widest text-neutral-600">
           Scroll
         </span>
 
-        <div className="w-5 h-8 rounded-full border border-neutral-700 flex justify-center pt-1.5">
-          <div className="w-1 h-2 rounded-full bg-indigo-400 animate-bounce" />
+        <div className="flex h-8 w-5 justify-center rounded-full border border-neutral-700 pt-1.5">
+          <div className="h-2 w-1 rounded-full bg-indigo-400 animate-bounce" />
         </div>
       </div>
     </section>
