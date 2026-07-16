@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { Icon } from "@iconify/react";
 import PrismBackground from "@/components/backgrounds/PrismBackground";
-
+import SpecularButton from "@/components/ui/SpecularButton";
 interface StatItem {
   target: number;
   suffix?: string;
@@ -13,28 +13,32 @@ interface AnimatedCounterProps {
   suffix?: string;
 }
 
+interface PointerPosition {
+  x: number;
+  y: number;
+}
+
 const stats: StatItem[] = [
   {
     target: 7,
-    label: "Ans d'exp.",
+    suffix: "+",
+    label: "Années d’expérience",
   },
   {
     target: 50,
     suffix: "+",
-    label: "Projets",
+    label: "Projets réalisés",
   },
   {
     target: 35,
     suffix: "%",
-    label: "Gain perf.",
+    label: "Gain de performance",
   },
 ];
 
 function AnimatedCounter({ target, suffix = "" }: AnimatedCounterProps) {
   const [count, setCount] = useState<number>(0);
-
   const counterRef = useRef<HTMLDivElement | null>(null);
-
   const hasAnimated = useRef<boolean>(false);
 
   useEffect(() => {
@@ -99,14 +103,51 @@ function AnimatedCounter({ target, suffix = "" }: AnimatedCounterProps) {
 }
 
 function Hero2() {
+  const [isNameHovered, setIsNameHovered] = useState<boolean>(false);
+
+  const [pointerPosition, setPointerPosition] = useState<PointerPosition>({
+    x: 0,
+    y: 0,
+  });
+
+  const handleNameMouseMove = (event: MouseEvent<HTMLHeadingElement>): void => {
+    const bounds = event.currentTarget.getBoundingClientRect();
+
+    const normalizedX = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
+
+    const normalizedY = ((event.clientY - bounds.top) / bounds.height) * 2 - 1;
+
+    setPointerPosition({
+      x: Math.max(-1, Math.min(1, normalizedX)),
+      y: Math.max(-1, Math.min(1, normalizedY)),
+    });
+  };
+
+  const handleNameMouseEnter = (): void => {
+    setIsNameHovered(true);
+  };
+
+  const handleNameMouseLeave = (): void => {
+    setIsNameHovered(false);
+
+    setPointerPosition({
+      x: 0,
+      y: 0,
+    });
+  };
+
   return (
     <section
       id="hero"
       className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden px-4 pb-20 pt-24 sm:px-6 sm:pb-24"
     >
-      <PrismBackground />
+      <PrismBackground
+        isInteractive={isNameHovered}
+        pointerX={pointerPosition.x}
+        pointerY={pointerPosition.y}
+      />
 
-      <div className="relative z-10 mx-auto w-full max-w-4xl text-center">
+      <div className="relative z-10 mx-auto w-full max-w-5xl text-center">
         <div className="anim-fade-up delay-200 mb-6">
           <span className="glass inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[11px] font-medium tracking-wide text-indigo-300 sm:text-xs">
             <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
@@ -114,7 +155,16 @@ function Hero2() {
           </span>
         </div>
 
-        <h1 className="anim-clip delay-300 text-5xl font-medium leading-[0.88] tracking-tighter sm:text-6xl md:text-7xl lg:text-8xl">
+        <p className="anim-fade-up delay-200 mb-3 text-xs font-medium uppercase tracking-[0.24em] text-neutral-500 sm:text-sm">
+          Bonjour, je suis
+        </p>
+
+        <h1
+          className="anim-clip delay-300 mx-auto w-fit cursor-default select-none text-5xl font-medium leading-[0.86] tracking-tighter sm:text-6xl md:text-7xl lg:text-8xl"
+          onMouseEnter={handleNameMouseEnter}
+          onMouseMove={handleNameMouseMove}
+          onMouseLeave={handleNameMouseLeave}
+        >
           <span className="gradient-text-static">Foued</span>
 
           <br />
@@ -125,52 +175,104 @@ function Hero2() {
         <div className="anim-fade-up delay-500 mx-auto mt-7 flex max-w-2xl flex-wrap items-center justify-center gap-x-3 gap-y-2 text-sm font-light text-neutral-400 sm:text-base md:text-lg">
           <Icon icon="lucide:code-2" width={20} className="text-indigo-400" />
 
-          <span>Développeur FullStack</span>
+          <span>Développeur FullStack JavaScript</span>
 
           <span className="hidden text-zinc-600 sm:inline">|</span>
 
-          <span className="font-medium text-indigo-400">React.js</span>
+          <span className="font-medium text-indigo-400">React</span>
 
-          <span className="text-zinc-600">/</span>
+          <span className="text-zinc-600">•</span>
+
+          <span className="font-medium text-sky-400">TypeScript</span>
+
+          <span className="text-zinc-600">•</span>
 
           <span className="font-medium text-purple-400">Node.js</span>
         </div>
 
-        <p className="anim-fade-up delay-600 mx-auto mt-6 max-w-2xl px-2 text-sm font-light leading-relaxed text-neutral-500 sm:text-base">
-          7+ ans d&apos;expérience dans la conception de solutions web modernes,
-          performantes et maintenables. Intégration de l&apos;IA générative pour
-          accélérer le développement.
+        <p className="anim-fade-up delay-600 mx-auto mt-6 max-w-2xl px-2 text-sm font-light leading-7 text-neutral-400 sm:text-base sm:leading-8">
+          Je transforme des besoins métier complexes en applications web
+          modernes, performantes et faciles à utiliser. Depuis plus de 7 ans, je
+          conçois des produits SaaS avec React, TypeScript et Node.js, tout en
+          intégrant l&apos;IA pour accélérer le développement et améliorer
+          l&apos;expérience utilisateur.
         </p>
 
         <div className="anim-fade-up delay-700 mx-auto mt-9 flex w-full max-w-sm flex-col items-stretch justify-center gap-3 sm:max-w-none sm:flex-row sm:items-center">
-          <a
-            style={{ color: "black" }}
-            href="#contact"
-            className="group flex w-full items-center justify-center gap-2 rounded-full bg-white px-8 py-3.5 text-sm font-medium text-black transition-all duration-300 hover:bg-neutral-200 sm:w-auto"
+          <SpecularButton
+            href="#experience"
+            size="md"
+            radius={999}
+            tint="#ffffff"
+            tintOpacity={0.96}
+            blur={8}
+            textColor="#050505"
+            lineColor="#818cf8"
+            baseColor="#737373"
+            intensity={1.25}
+            shineSize={18}
+            shineFade={55}
+            thickness={1.5}
+            speed={0.08}
+            followMouse
+            proximity={280}
+            autoAnimate
+            className="group w-full gap-2 sm:w-auto"
           >
-            Me contacter
+            <p style={{ color: "black" }}>Découvrir mon parcours</p>
             <Icon
+              style={{ color: "black" }}
               icon="lucide:arrow-right"
               width={16}
-              className="transition-transform group-hover:translate-x-1"
+              className="transition-transform duration-300 group-hover:translate-x-1"
             />
-          </a>
+          </SpecularButton>
 
-          <a
-            href="#experience"
-            className="glass flex w-full items-center justify-center gap-2 rounded-full px-8 py-3.5 text-sm font-medium text-neutral-300 transition-all duration-300 hover:border-indigo-500/30 hover:text-white sm:w-auto"
+          <SpecularButton
+            href="https://wa.me/33767653082?text=Bonjour%20Foued,%20je%20viens%20de%20visiter%20votre%20site%20web%20et%20j'aimerais%20échanger%20avec%20vous."
+            target="_blank"
+            rel="noopener noreferrer"
+            size="md"
+            radius={999}
+            tint="#18181b"
+            tintOpacity={0.78}
+            blur={18}
+            textColor="#e4e4e7"
+            lineColor="#a5b4fc"
+            baseColor="#525252"
+            intensity={1.35}
+            shineSize={18}
+            shineFade={55}
+            thickness={1.5}
+            speed={0.07}
+            followMouse
+            proximity={260}
+            autoAnimate
+            className="group w-full gap-2 sm:w-auto"
           >
-            <Icon icon="lucide:briefcase" width={16} />
-            Voir mon parcours
-          </a>
+            <Icon
+              className="transition-all duration-300 text-zinc-300 group-hover:text-[#25D366] group-hover:scale-150 group-hover:-rotate-6"
+              icon="ri:whatsapp-fill"
+              width={18}
+            />
+            Let's Talk
+          </SpecularButton>
         </div>
 
         <div className="anim-fade-up delay-1000 mx-auto mt-12 grid w-full max-w-md grid-cols-3 gap-2 sm:mt-16 sm:max-w-lg sm:gap-8">
-          {stats.map((stat) => (
-            <div key={stat.label} className="min-w-0 text-center">
+          {stats.map((stat, index) => (
+            <div
+              key={stat.label}
+              className={[
+                "relative min-w-0 px-1 text-center sm:px-4",
+                index > 0
+                  ? "before:absolute before:left-0 before:top-1/2 before:h-8 before:w-px before:-translate-y-1/2 before:bg-white/10"
+                  : "",
+              ].join(" ")}
+            >
               <AnimatedCounter target={stat.target} suffix={stat.suffix} />
 
-              <div className="mt-1 break-words text-[8px] uppercase leading-tight tracking-[0.12em] text-neutral-500 min-[375px]:text-[9px] sm:text-[10px] sm:tracking-widest">
+              <div className="mt-1 text-[8px] uppercase leading-tight tracking-[0.1em] text-neutral-500 min-[375px]:text-[9px] sm:text-[10px] sm:tracking-widest">
                 {stat.label}
               </div>
             </div>
