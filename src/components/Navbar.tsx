@@ -4,28 +4,39 @@ import { Icon } from "@iconify/react";
 interface NavigationItem {
   label: string;
   href: string;
+  targetId: string;
 }
 
 const navigationItems: NavigationItem[] = [
   {
     label: "À propos",
     href: "#about",
+    targetId: "about-title",
   },
   {
     label: "Compétences",
     href: "#skills",
+    targetId: "skills-title",
   },
   {
     label: "Expérience",
     href: "#experience",
+    targetId: "experience-title",
   },
   {
     label: "Formation",
     href: "#education",
+    targetId: "education-title",
+  },
+  {
+    label: "Projets",
+    href: "#projects",
+    targetId: "projects-title",
   },
   {
     label: "Contact",
     href: "#contact",
+    targetId: "contact-title",
   },
 ];
 
@@ -76,6 +87,32 @@ function Navbar() {
     setIsMobileMenuOpen(false);
   };
 
+  const scrollToSection = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    targetId: string,
+  ) => {
+    event.preventDefault();
+
+    const target = document.getElementById(targetId);
+
+    if (!target) return;
+
+    const navbarHeight = 80;
+    const visualOffset = 70;
+
+    const targetPosition =
+      target.getBoundingClientRect().top +
+      window.scrollY -
+      navbarHeight -
+      visualOffset;
+
+    window.scrollTo({
+      top: targetPosition,
+      behavior: "smooth",
+    });
+    setIsMobileMenuOpen(false);
+  };
+
   return (
     <>
       <nav
@@ -91,7 +128,7 @@ function Navbar() {
             Saidane
           </a>
 
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden items-center gap-8 md:flex">
             {navigationItems.map((item) => {
               const sectionId = item.href.replace("#", "");
               const isActive = activeSection === sectionId;
@@ -100,7 +137,8 @@ function Navbar() {
                 <a
                   key={item.href}
                   href={item.href}
-                  className={`nav-link text-sm font-light ${
+                  onClick={(event) => scrollToSection(event, item.targetId)}
+                  className={`nav-link cursor-pointer text-sm font-light ${
                     isActive ? "active text-white" : "text-neutral-400"
                   }`}
                 >
@@ -110,8 +148,10 @@ function Navbar() {
             })}
 
             <a
-              href="#contact"
-              className="ml-2 px-5 py-2 bg-indigo-500 hover:bg-indigo-400 text-white text-sm font-medium rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/25"
+              href="https://wa.me/33767653082?text=Bonjour%20Foued,%20je%20viens%20de%20visiter%20votre%20portfolio%20et%20j'aimerais%20échanger%20avec%20vous."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ml-2 rounded-full bg-indigo-500 px-5 py-2 text-sm font-medium text-white transition-all duration-300 hover:bg-indigo-400 hover:shadow-lg hover:shadow-indigo-500/25"
             >
               Me contacter
             </a>

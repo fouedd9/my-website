@@ -85,7 +85,7 @@ function About() {
 
       <div className="max-w-6xl mx-auto">
         <div className="grid md:grid-cols-12 gap-12 items-center">
-          <div className="md:col-span-4 reveal-left">
+          <div id="about-title" className="md:col-span-4 reveal-left">
             <span className="text-xs font-medium uppercase tracking-widest text-indigo-400">
               À propos
             </span>

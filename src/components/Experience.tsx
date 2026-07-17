@@ -246,7 +246,7 @@ function Experience() {
       <div className="section-sep mb-32" />
 
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16 reveal">
+        <div id="experience-title" className="text-center mb-16 reveal">
           <span className="text-xs font-medium uppercase tracking-widest text-indigo-400">
             Expérience
           </span>

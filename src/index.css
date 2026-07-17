@@ -17,6 +17,7 @@
 
 html {
   scroll-behavior: smooth;
+  /* scroll-padding-top: 90px; */
 }
 
 html,
@@ -535,6 +536,9 @@ a {
     transparent
   );
 }
+/* section[id] {
+  scroll-margin-top: 90px;
+} */
 
 /* ========================================
    ACCESSIBILITY

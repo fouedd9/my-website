@@ -5,7 +5,7 @@ import Skills from "./components/Skills";
 import Experience from "./components/Experience";
 import Education from "./components/Education";
 import Hero2 from "./components/Hero2";
-
+import ProjectsSection from "@/components/projects/ProjectsSection";
 function App() {
   useScrollReveal();
 
@@ -20,6 +20,7 @@ function App() {
         <Skills />
         <Experience />
         <Education />
+        <ProjectsSection />
       </main>
     </>
   );
