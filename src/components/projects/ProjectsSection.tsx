@@ -229,7 +229,7 @@ export default function ProjectsSection() {
           useWindowScroll
           itemDistance={130}
           itemStackDistance={30}
-          stackPosition="24%"
+          stackPosition="4%"
           scaleEndPosition="4%"
           baseScale={0.9}
           itemScale={0.02}
