@@ -1,12 +1,14 @@
 import { Icon } from "@iconify/react";
 
+import { useTranslation } from "@/i18n";
+
 interface ContactInformation {
   icon: string;
   label: string;
   href?: string;
 }
 
-interface Language {
+interface SpokenLanguage {
   code: string;
   level: string;
 }
@@ -36,7 +38,7 @@ const contactInformation: ContactInformation[] = [
   },
 ];
 
-const languages: Language[] = [
+const spokenLanguages: SpokenLanguage[] = [
   {
     code: "FR",
     level: "C2",
@@ -47,51 +49,57 @@ const languages: Language[] = [
   },
 ];
 
-const expertiseItems: ExpertiseItem[] = [
-  {
-    icon: "lucide:bot",
-    title: "IA Générative",
-    description: "Copilot, ChatGPT, Claude, MCP",
-    iconColor: "text-indigo-400",
-    backgroundColor: "bg-indigo-500/10",
-  },
-  {
-    icon: "lucide:layers",
-    title: "Architecture",
-    description: "SaaS, Microservices, REST API",
-    iconColor: "text-purple-400",
-    backgroundColor: "bg-purple-500/10",
-  },
-  {
-    icon: "lucide:smartphone",
-    title: "Multi-device",
-    description: "Responsive, Tactile, Desktop",
-    iconColor: "text-cyan-400",
-    backgroundColor: "bg-cyan-500/10",
-  },
-  {
-    icon: "lucide:users",
-    title: "Agile",
-    description: "Scrum, Kanban, Sprint, JIRA",
-    iconColor: "text-emerald-400",
-    backgroundColor: "bg-emerald-500/10",
-  },
-];
-
 function About() {
+  const { language, t } = useTranslation();
+
+  const expertiseItems: ExpertiseItem[] = [
+    {
+      icon: "lucide:bot",
+      title: language === "fr" ? "IA Générative" : "Generative AI",
+      description: "Copilot, ChatGPT, Claude, MCP",
+      iconColor: "text-indigo-400",
+      backgroundColor: "bg-indigo-500/10",
+    },
+    {
+      icon: "lucide:layers",
+      title: language === "fr" ? "Architecture" : "Architecture",
+      description: "SaaS, Microservices, REST API",
+      iconColor: "text-purple-400",
+      backgroundColor: "bg-purple-500/10",
+    },
+    {
+      icon: "lucide:smartphone",
+      title: language === "fr" ? "Multi-device" : "Multi-device",
+      description:
+        language === "fr"
+          ? "Responsive, Tactile, Desktop"
+          : "Responsive, Touch, Desktop",
+      iconColor: "text-cyan-400",
+      backgroundColor: "bg-cyan-500/10",
+    },
+    {
+      icon: "lucide:users",
+      title: "Agile",
+      description: "Scrum, Kanban, Sprint, JIRA",
+      iconColor: "text-emerald-400",
+      backgroundColor: "bg-emerald-500/10",
+    },
+  ];
+
   return (
-    <section id="about" className="relative py-32 px-6">
+    <section id="about" className="relative px-6 py-32">
       <div className="section-sep mb-32" />
 
-      <div className="max-w-6xl mx-auto">
-        <div className="grid md:grid-cols-12 gap-12 items-center">
-          <div id="about-title" className="md:col-span-4 reveal-left">
+      <div className="mx-auto max-w-6xl">
+        <div className="grid items-center gap-12 md:grid-cols-12">
+          <div id="about-title" className="reveal-left md:col-span-4">
             <span className="text-xs font-medium uppercase tracking-widest text-indigo-400">
-              À propos
+              {t.about.eyebrow}
             </span>
 
-            <h2 className="mt-4 text-3xl md:text-4xl font-medium tracking-tighter gradient-text-static leading-tight">
-              Qui suis-je
+            <h2 className="gradient-text-static mt-4 text-3xl font-medium leading-tight tracking-tighter md:text-4xl">
+              {language === "fr" ? "Qui suis-je" : "Who I am"}
+
               <span className="text-indigo-400">.</span>
             </h2>
 
@@ -102,7 +110,8 @@ function About() {
                     <Icon
                       icon={information.icon}
                       width={16}
-                      className="text-indigo-400 flex-shrink-0"
+                      className="flex-shrink-0 text-indigo-400"
+                      aria-hidden="true"
                     />
 
                     <span>{information.label}</span>
@@ -114,7 +123,7 @@ function About() {
                     <a
                       key={information.label}
                       href={information.href}
-                      className="flex items-center gap-3 text-sm text-neutral-400 font-light hover:text-white transition-colors"
+                      className="flex items-center gap-3 text-sm font-light text-neutral-400 transition-colors hover:text-white"
                     >
                       {content}
                     </a>
@@ -124,7 +133,7 @@ function About() {
                 return (
                   <div
                     key={information.label}
-                    className="flex items-center gap-3 text-sm text-neutral-400 font-light"
+                    className="flex items-center gap-3 text-sm font-light text-neutral-400"
                   >
                     {content}
                   </div>
@@ -133,51 +142,80 @@ function About() {
             </div>
 
             <div className="mt-8 flex gap-3">
-              {languages.map((language) => (
+              {spokenLanguages.map((spokenLanguage) => (
                 <div
-                  key={language.code}
-                  className="glass px-4 py-2 rounded-xl text-center"
+                  key={spokenLanguage.code}
+                  className="glass rounded-xl px-4 py-2 text-center"
                 >
                   <div className="text-sm font-medium text-white">
-                    {language.code}
+                    {spokenLanguage.code}
                   </div>
 
-                  <div className="text-[10px] text-indigo-300 mt-0.5">
-                    {language.level}
+                  <div className="mt-0.5 text-[10px] text-indigo-300">
+                    {spokenLanguage.level}
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="md:col-span-8 reveal-right">
-            <div className="glass rounded-2xl p-8 card-hover relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-40 h-40 bg-indigo-500/5 rounded-full blur-[60px] pointer-events-none" />
+          <div className="reveal-right md:col-span-8">
+            <div className="glass card-hover relative overflow-hidden rounded-2xl p-8">
+              <div className="pointer-events-none absolute right-0 top-0 h-40 w-40 rounded-full bg-indigo-500/5 blur-[60px]" />
 
-              <p className="relative z-10 text-neutral-300 font-light leading-[1.8] text-[15px]">
-                Développeur FullStack JS passionné, avec plus de{" "}
-                <span className="text-white font-medium">
-                  7 ans d&apos;expérience
-                </span>{" "}
-                dans la conception de solutions web modernes, performantes et
-                maintenables. Spécialisé en{" "}
-                <span className="text-indigo-400 font-medium">Node.js</span> et{" "}
-                <span className="text-indigo-400 font-medium">React.js</span>,
-                j&apos;utilise l&apos;IA générative — GitHub Copilot, ChatGPT,
-                Claude — pour accélérer le développement, améliorer la qualité
-                du code et renforcer la productivité des équipes.
-              </p>
+              {language === "fr" ? (
+                <p className="relative z-10 text-[15px] font-light leading-[1.8] text-neutral-300">
+                  Développeur FullStack JS passionné, avec plus de{" "}
+                  <span className="font-medium text-white">
+                    7 ans d&apos;expérience
+                  </span>{" "}
+                  dans la conception de solutions web modernes, performantes et
+                  maintenables. Spécialisé en{" "}
+                  <span className="font-medium text-indigo-400">Node.js</span>{" "}
+                  et{" "}
+                  <span className="font-medium text-indigo-400">React.js</span>,
+                  j&apos;utilise l&apos;IA générative — GitHub Copilot, ChatGPT,
+                  Claude — pour accélérer le développement, améliorer la qualité
+                  du code et renforcer la productivité des équipes.
+                </p>
+              ) : (
+                <p className="relative z-10 text-[15px] font-light leading-[1.8] text-neutral-300">
+                  Passionate FullStack JavaScript developer with more than{" "}
+                  <span className="font-medium text-white">
+                    7 years of experience
+                  </span>{" "}
+                  building modern, high-performance and maintainable web
+                  solutions. Specialized in{" "}
+                  <span className="font-medium text-indigo-400">Node.js</span>{" "}
+                  and{" "}
+                  <span className="font-medium text-indigo-400">React.js</span>,
+                  I use generative AI tools — GitHub Copilot, ChatGPT and Claude
+                  — to accelerate development, improve code quality and increase
+                  team productivity.
+                </p>
+              )}
 
-              <div className="relative z-10 mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="relative z-10 mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {expertiseItems.map((item) => (
                   <div key={item.title} className="flex items-start gap-3">
                     <div
-                      className={`w-8 h-8 rounded-lg ${item.backgroundColor} flex items-center justify-center flex-shrink-0 mt-0.5`}
+                      className={`
+                        mt-0.5
+                        flex
+                        h-8
+                        w-8
+                        flex-shrink-0
+                        items-center
+                        justify-center
+                        rounded-lg
+                        ${item.backgroundColor}
+                      `}
                     >
                       <Icon
                         icon={item.icon}
                         width={16}
                         className={item.iconColor}
+                        aria-hidden="true"
                       />
                     </div>
 
@@ -186,7 +224,7 @@ function About() {
                         {item.title}
                       </div>
 
-                      <div className="text-xs text-neutral-500 font-light mt-0.5">
+                      <div className="mt-0.5 text-xs font-light text-neutral-500">
                         {item.description}
                       </div>
                     </div>

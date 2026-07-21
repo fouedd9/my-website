@@ -1,6 +1,7 @@
 import { useRef, useState, type CSSProperties, type PointerEvent } from "react";
 
-import { projects, type ProjectAccent } from "@/data/projects";
+import { projectsEN, projectsFR, type ProjectAccent } from "@/data/projects";
+import { useTranslation } from "@/i18n";
 
 import ProjectCard from "./ProjectCard";
 import ScrollStack, { ScrollStackItem } from "./ScrollStack";
@@ -35,9 +36,13 @@ type SectionStyle = CSSProperties & {
 };
 
 export default function ProjectsSection() {
+  const { language, t } = useTranslation();
+
   const sectionRef = useRef<HTMLElement>(null);
 
   const [activeAccent, setActiveAccent] = useState<ProjectAccent | null>(null);
+
+  const displayedProjects = language === "fr" ? projectsFR : projectsEN;
 
   const sectionStyle: SectionStyle = {
     "--mouse-x": "50%",
@@ -191,7 +196,7 @@ export default function ProjectsSection() {
               text-violet-300
             "
           >
-            Réalisations
+            {t.projects.eyebrow}
           </span>
 
           <h2
@@ -206,7 +211,7 @@ export default function ProjectsSection() {
               lg:text-6xl
             "
           >
-            Featured Projects
+            {t.projects.title}
           </h2>
 
           <p
@@ -220,8 +225,7 @@ export default function ProjectsSection() {
               sm:text-lg
             "
           >
-            Des produits conçus pour résoudre de vrais problèmes, de la
-            conception à la mise en production.
+            {t.projects.description}
           </p>
         </div>
 
@@ -236,7 +240,7 @@ export default function ProjectsSection() {
           rotationAmount={0}
           blurAmount={0}
         >
-          {projects.map((project) => (
+          {displayedProjects.map((project) => (
             <ScrollStackItem
               key={project.id}
               itemClassName="

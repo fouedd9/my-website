@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { Icon } from "@iconify/react";
+
 import PrismBackground from "@/components/backgrounds/PrismBackground";
 import SpecularButton from "@/components/ui/SpecularButton";
+import { useTranslation } from "@/i18n";
+
 interface StatItem {
   target: number;
   suffix?: string;
@@ -17,24 +20,6 @@ interface PointerPosition {
   x: number;
   y: number;
 }
-
-const stats: StatItem[] = [
-  {
-    target: 7,
-    suffix: "+",
-    label: "Années d’expérience",
-  },
-  {
-    target: 50,
-    suffix: "+",
-    label: "Projets réalisés",
-  },
-  {
-    target: 35,
-    suffix: "%",
-    label: "Gain de performance",
-  },
-];
 
 function AnimatedCounter({ target, suffix = "" }: AnimatedCounterProps) {
   const [count, setCount] = useState<number>(0);
@@ -103,12 +88,41 @@ function AnimatedCounter({ target, suffix = "" }: AnimatedCounterProps) {
 }
 
 function Hero2() {
+  const { language, t } = useTranslation();
+
   const [isNameHovered, setIsNameHovered] = useState<boolean>(false);
 
   const [pointerPosition, setPointerPosition] = useState<PointerPosition>({
     x: 0,
     y: 0,
   });
+
+  const stats: StatItem[] = [
+    {
+      target: t.about.stats.experience.value,
+      suffix: t.about.stats.experience.suffix,
+      label: t.about.stats.experience.label,
+    },
+    {
+      target: t.about.stats.projects.value,
+      suffix: t.about.stats.projects.suffix,
+      label: t.about.stats.projects.label,
+    },
+    {
+      target: t.about.stats.performance.value,
+      suffix: t.about.stats.performance.suffix,
+      label: t.about.stats.performance.label,
+    },
+  ];
+
+  const whatsappMessage =
+    language === "fr"
+      ? "Bonjour Foued, je viens de visiter votre portfolio et j'aimerais échanger avec vous."
+      : "Hello Foued, I have just visited your portfolio and would like to connect with you.";
+
+  const whatsappUrl = `https://wa.me/33767653082?text=${encodeURIComponent(
+    whatsappMessage,
+  )}`;
 
   const handleNameMouseMove = (event: MouseEvent<HTMLHeadingElement>): void => {
     const bounds = event.currentTarget.getBoundingClientRect();
@@ -150,13 +164,14 @@ function Hero2() {
       <div className="relative z-10 mx-auto w-full max-w-5xl text-center">
         <div className="anim-fade-up delay-200 mb-6">
           <span className="glass inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-[11px] font-medium tracking-wide text-indigo-300 sm:text-xs">
-            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-            Disponible pour de nouveaux projets
+            <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
+
+            {t.hero.availability}
           </span>
         </div>
 
         <p className="anim-fade-up delay-200 mb-3 text-xs font-medium uppercase tracking-[0.24em] text-neutral-500 sm:text-sm">
-          Bonjour, je suis
+          {language === "fr" ? "Bonjour, je suis" : "Hello, I'm"}
         </p>
 
         <h1
@@ -165,17 +180,17 @@ function Hero2() {
           onMouseMove={handleNameMouseMove}
           onMouseLeave={handleNameMouseLeave}
         >
-          <span className="gradient-text-static">Foued</span>
+          <span className="gradient-text-static">{t.hero.firstName}</span>
 
           <br />
 
-          <span className="gradient-text">Saidane</span>
+          <span className="gradient-text">{t.hero.lastName}</span>
         </h1>
 
         <div className="anim-fade-up delay-500 mx-auto mt-7 flex max-w-2xl flex-wrap items-center justify-center gap-x-3 gap-y-2 text-sm font-light text-neutral-400 sm:text-base md:text-lg">
           <Icon icon="lucide:code-2" width={20} className="text-indigo-400" />
 
-          <span>Développeur FullStack JavaScript</span>
+          <span>{t.hero.role}</span>
 
           <span className="hidden text-zinc-600 sm:inline">|</span>
 
@@ -191,11 +206,7 @@ function Hero2() {
         </div>
 
         <p className="anim-fade-up delay-600 mx-auto mt-6 max-w-2xl px-2 text-sm font-light leading-7 text-neutral-400 sm:text-base sm:leading-8">
-          Je transforme des besoins métier complexes en applications web
-          modernes, performantes et faciles à utiliser. Depuis plus de 7 ans, je
-          conçois des produits SaaS avec React, TypeScript et Node.js, tout en
-          intégrant l&apos;IA pour accélérer le développement et améliorer
-          l&apos;expérience utilisateur.
+          {t.hero.description}
         </p>
 
         <div className="anim-fade-up delay-700 mx-auto mt-9 flex w-full max-w-sm flex-col items-stretch justify-center gap-3 sm:max-w-none sm:flex-row sm:items-center">
@@ -219,7 +230,8 @@ function Hero2() {
             autoAnimate
             className="group w-full gap-2 sm:w-auto"
           >
-            <p style={{ color: "black" }}>Découvrir mon parcours</p>
+            <p style={{ color: "black" }}>{t.hero.journeyButton}</p>
+
             <Icon
               style={{ color: "black" }}
               icon="lucide:arrow-right"
@@ -229,7 +241,7 @@ function Hero2() {
           </SpecularButton>
 
           <SpecularButton
-            href="https://wa.me/33767653082?text=Bonjour%20Foued,%20je%20viens%20de%20visiter%20votre%20site%20web%20et%20j'aimerais%20échanger%20avec%20vous."
+            href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
             size="md"
@@ -251,11 +263,12 @@ function Hero2() {
             className="group w-full gap-2 sm:w-auto"
           >
             <Icon
-              className="transition-all duration-300 text-zinc-300 group-hover:text-[#25D366] group-hover:scale-150 group-hover:-rotate-6"
+              className="text-zinc-300 transition-all duration-300 group-hover:-rotate-6 group-hover:scale-150 group-hover:text-[#25D366]"
               icon="ri:whatsapp-fill"
               width={18}
             />
-            Let's Talk
+
+            {t.hero.contactButton}
           </SpecularButton>
         </div>
 
@@ -282,11 +295,11 @@ function Hero2() {
 
       <div className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 sm:flex">
         <span className="text-[10px] uppercase tracking-widest text-neutral-600">
-          Scroll
+          {language === "fr" ? "Défiler" : "Scroll"}
         </span>
 
         <div className="flex h-8 w-5 justify-center rounded-full border border-neutral-700 pt-1.5">
-          <div className="h-2 w-1 rounded-full bg-indigo-400 animate-bounce" />
+          <div className="h-2 w-1 animate-bounce rounded-full bg-indigo-400" />
         </div>
       </div>
     </section>

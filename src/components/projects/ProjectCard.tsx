@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Icon } from "@iconify/react";
-
+import { useTranslation } from "@/i18n";
 import type { Project, ProjectAccent } from "@/data/projects";
 
 interface ProjectCardProps {
@@ -81,8 +81,8 @@ export default function ProjectCard({
   onActivate,
   onDeactivate,
 }: ProjectCardProps) {
+  const { language } = useTranslation();
   const [imageLoaded, setImageLoaded] = useState(false);
-
   if (!project) {
     console.error("ProjectCard : la propriété project est absente.");
     return null;
@@ -102,7 +102,8 @@ export default function ProjectCard({
   const technologies = Array.isArray(project.technologies)
     ? project.technologies
     : [];
-
+  const projectButtonLabel =
+    language === "fr" ? "Explorer le projet" : "Explore the project";
   return (
     <article
       onMouseEnter={onActivate}
@@ -297,7 +298,11 @@ export default function ProjectCard({
         >
           <img
             src={project.image}
-            alt={`Aperçu du projet ${project.title}`}
+            alt={
+              language === "fr"
+                ? `Aperçu du projet ${project.title}`
+                : `Preview of the ${project.title} project`
+            }
             loading="lazy"
             onLoad={() => setImageLoaded(true)}
             className={`
@@ -502,7 +507,7 @@ export default function ProjectCard({
             href={project.url}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={`Explorer le projet ${project.title}`}
+            aria-label={`${projectButtonLabel} ${project.title}`}
             className={`
               inline-flex
               items-center
@@ -524,7 +529,7 @@ export default function ProjectCard({
               ${styles.buttonHover}
             `}
           >
-            <span>Explorer le projet</span>
+            <span>{projectButtonLabel}</span>
 
             <Icon
               icon="lucide:arrow-up-right"
