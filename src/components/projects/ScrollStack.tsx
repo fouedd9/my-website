@@ -49,7 +49,7 @@ export function ScrollStackItem({
         shadow-[0_20px_80px_rgba(0,0,0,0.35)]
         will-change-transform
         sm:p-10
-        lg:min-h-[420px]
+        
         ${itemClassName}
       `}
       style={{
@@ -414,7 +414,7 @@ export default function ScrollStack({
           scroll-stack-inner
           min-h-screen
           px-4
-          pb-[35rem]
+          pb-[5rem]
           pt-[12vh]
           sm:px-6
           lg:px-8

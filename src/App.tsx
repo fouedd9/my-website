@@ -6,6 +6,7 @@ import Experience from "./components/Experience";
 import Education from "./components/Education";
 import Hero2 from "./components/Hero2";
 import ProjectsSection from "@/components/projects/ProjectsSection";
+import Footer from "./components/Footer";
 
 function App() {
   useScrollReveal();
@@ -23,6 +24,7 @@ function App() {
         <Experience />
         <Education />
         <ProjectsSection />
+        <Footer />
       </main>
     </>
   );
