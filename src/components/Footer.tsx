@@ -41,36 +41,6 @@ export default function Footer() {
       icon: "mdi:github",
       external: true,
     },
-    {
-      label: "Facebook",
-      href: "https://www.facebook.com/foued.saidane.5473/",
-      icon: "mdi:facebook",
-      external: true,
-    },
-    {
-      label: "Instagram",
-      href: "https://www.instagram.com/foued.saidane/",
-      icon: "mdi:instagram",
-      external: true,
-    },
-    {
-      label: "YouTube",
-      href: "https://www.youtube.com/@fouedsaidane3612",
-      icon: "mdi:youtube",
-      external: true,
-    },
-    {
-      label: "X (Twitter)",
-      href: "https://x.com/saidanefoued",
-      icon: "mdi:twitter",
-      external: true,
-    },
-    {
-      label: "Reddit",
-      href: "https://www.reddit.com/user/Fouedd9/",
-      icon: "mdi:reddit",
-      external: true,
-    },
   ];
 
   const scrollToTop = () => {
@@ -435,7 +405,7 @@ export default function Footer() {
             </button>
 
             <p className="mt-2 text-xs font-light text-zinc-500">
-              React · TypeScript · Vite
+              React · TypeScript · Vite · Node
             </p>
           </div>
 

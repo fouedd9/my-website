@@ -414,7 +414,7 @@ export default function ScrollStack({
           scroll-stack-inner
           min-h-screen
           px-4
-          pb-[5rem]
+          pb-[20rem]
           pt-[12vh]
           sm:px-6
           lg:px-8
