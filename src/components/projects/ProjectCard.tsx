@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Icon } from "@iconify/react";
 import { useTranslation } from "@/i18n";
 import type { Project, ProjectAccent } from "@/data/projects";
+import { trackProjectClick } from "@/analytics/events";
 
 interface ProjectCardProps {
   project: Project;
@@ -504,6 +505,14 @@ export default function ProjectCard({
 
         <div className="mt-auto shrink-0 pt-2">
           <a
+            onClick={() =>
+              trackProjectClick({
+                language,
+                projectName: project.id,
+                projectCategory: project.category,
+                destination: "live_demo",
+              })
+            }
             href={project.url}
             target="_blank"
             rel="noopener noreferrer"

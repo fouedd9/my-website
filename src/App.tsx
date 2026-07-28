@@ -9,19 +9,41 @@ import ProjectsSection from "@/components/projects/ProjectsSection";
 import Footer from "./components/Footer";
 import { useEffect } from "react";
 import { trackPageView } from "./analytics/analytics";
+import { trackTimeOnSite } from "./analytics/events";
 
 function App() {
   useScrollReveal();
+
   useEffect(() => {
     trackPageView(window.location.pathname);
   }, []);
+
+  useEffect(() => {
+    const startTime = Date.now();
+
+    const sendTimeOnSite = () => {
+      const seconds = Math.round((Date.now() - startTime) / 1000);
+
+      if (seconds >= 3) {
+        trackTimeOnSite({
+          language: "fr",
+          seconds,
+        });
+      }
+    };
+
+    window.addEventListener("pagehide", sendTimeOnSite);
+
+    return () => {
+      window.removeEventListener("pagehide", sendTimeOnSite);
+    };
+  }, []);
+
   return (
     <>
       <Navbar />
 
       <main>
-        {/* <Hero /> */}
-
         <Hero2 />
         <About />
         <Skills />

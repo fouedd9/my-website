@@ -1,14 +1,21 @@
 import { Icon } from "@iconify/react";
 
 import { useTranslation } from "@/i18n";
-import { trackWhatsappClick } from "@/analytics/events";
+import {
+  trackEmailClick,
+  trackGithubClick,
+  trackLinkedinClick,
+  trackWhatsappClick,
+} from "@/analytics/events";
 import { Locations } from "@/analytics/constants";
+import { useMemo } from "react";
 
 interface SocialLink {
   label: string;
   href: string;
   icon: string;
   external?: boolean;
+  onClick?: () => void;
 }
 
 export default function Footer() {
@@ -25,25 +32,43 @@ export default function Footer() {
     whatsappMessage,
   )}`;
 
-  const socialLinks: SocialLink[] = [
-    {
-      label: "Email",
-      href: "mailto:fouedsaidane2@gmail.com",
-      icon: "lucide:mail",
-    },
-    {
-      label: "LinkedIn",
-      href: "https://www.linkedin.com/in/foued-saidane/?locale=fr",
-      icon: "mdi:linkedin",
-      external: true,
-    },
-    {
-      label: "GitHub",
-      href: "https://github.com/fouedd9",
-      icon: "mdi:github",
-      external: true,
-    },
-  ];
+  const socialLinks = useMemo<SocialLink[]>(
+    () => [
+      {
+        label: "Email",
+        href: "mailto:fouedsaidane2@gmail.com",
+        icon: "lucide:mail",
+        onClick: () =>
+          trackEmailClick({
+            language,
+            location: Locations.FOOTER,
+          }),
+      },
+      {
+        label: "LinkedIn",
+        href: "https://www.linkedin.com/in/foued-saidane/?locale=fr",
+        icon: "mdi:linkedin",
+        onClick: () =>
+          trackLinkedinClick({
+            language,
+            location: Locations.FOOTER,
+          }),
+        external: true,
+      },
+      {
+        label: "GitHub",
+        href: "https://github.com/fouedd9",
+        icon: "mdi:github",
+        onClick: () =>
+          trackGithubClick({
+            language,
+            location: Locations.FOOTER,
+          }),
+        external: true,
+      },
+    ],
+    [language],
+  );
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -240,6 +265,12 @@ export default function Footer() {
               "
             >
               <a
+                onClick={() =>
+                  trackWhatsappClick({
+                    language,
+                    location: Locations.FOOTER,
+                  })
+                }
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -415,12 +446,7 @@ export default function Footer() {
           <div className="flex items-center gap-2">
             {socialLinks.map((link) => (
               <a
-                onClick={() =>
-                  trackWhatsappClick({
-                    language,
-                    location: Locations.HERO,
-                  })
-                }
+                onClick={link.onClick}
                 key={link.label}
                 href={link.href}
                 target={link.external ? "_blank" : undefined}

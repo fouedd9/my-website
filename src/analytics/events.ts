@@ -4,12 +4,12 @@ export type PortfolioLanguage = "fr" | "en";
 
 export type ScrollPercent = 25 | 50 | 75 | 100;
 
-export type ProjectDestination = "demo" | "github" | "details";
+export type ProjectDestination = "live_demo";
 
 export const AnalyticsEvents = {
     WHATSAPP_CLICK: "whatsapp_click",
-    EMAIL_CLICK: "email_click",
     LINKEDIN_CLICK: "linkedin_click",
+    EMAIL_CLICK: "email_click",
     GITHUB_CLICK: "github_click",
     PROJECT_VIEW: "project_view",
     PROJECT_CLICK: "project_click",
@@ -17,7 +17,6 @@ export const AnalyticsEvents = {
     LANGUAGE_CHANGE: "language_change",
     SCROLL_PROGRESS: "scroll_progress",
     TIME_ON_SITE: "time_on_site",
-    CV_DOWNLOAD: "cv_download",
 } as const;
 
 interface LanguageParams {
@@ -150,17 +149,3 @@ export function trackTimeOnSite({
     });
 }
 
-export function trackCvDownload({
-    language,
-    fileName,
-    location,
-}: LanguageParams &
-    LocationParams & {
-        fileName: string;
-    }): void {
-    trackEvent(AnalyticsEvents.CV_DOWNLOAD, {
-        language,
-        file_name: fileName,
-        location,
-    });
-}
