@@ -2,11 +2,33 @@ import { trackEvent } from "./analytics";
 
 export type PortfolioLanguage = "fr" | "en";
 
-interface BaseEventParams {
+export type ScrollPercent = 25 | 50 | 75 | 100;
+
+export type ProjectDestination = "demo" | "github" | "details";
+
+export const AnalyticsEvents = {
+    WHATSAPP_CLICK: "whatsapp_click",
+    EMAIL_CLICK: "email_click",
+    LINKEDIN_CLICK: "linkedin_click",
+    GITHUB_CLICK: "github_click",
+    PROJECT_VIEW: "project_view",
+    PROJECT_CLICK: "project_click",
+    SECTION_VIEW: "section_view",
+    LANGUAGE_CHANGE: "language_change",
+    SCROLL_PROGRESS: "scroll_progress",
+    TIME_ON_SITE: "time_on_site",
+    CV_DOWNLOAD: "cv_download",
+} as const;
+
+interface LanguageParams {
     language: PortfolioLanguage;
 }
 
-interface ProjectEventParams extends BaseEventParams {
+interface LocationParams {
+    location: string;
+}
+
+interface ProjectParams extends LanguageParams {
     projectName: string;
     projectCategory?: string;
 }
@@ -14,10 +36,8 @@ interface ProjectEventParams extends BaseEventParams {
 export function trackWhatsappClick({
     language,
     location,
-}: BaseEventParams & {
-    location: string;
-}): void {
-    trackEvent("whatsapp_click", {
+}: LanguageParams & LocationParams): void {
+    trackEvent(AnalyticsEvents.WHATSAPP_CLICK, {
         language,
         location,
     });
@@ -26,10 +46,8 @@ export function trackWhatsappClick({
 export function trackEmailClick({
     language,
     location,
-}: BaseEventParams & {
-    location: string;
-}): void {
-    trackEvent("email_click", {
+}: LanguageParams & LocationParams): void {
+    trackEvent(AnalyticsEvents.EMAIL_CLICK, {
         language,
         location,
     });
@@ -38,10 +56,8 @@ export function trackEmailClick({
 export function trackLinkedinClick({
     language,
     location,
-}: BaseEventParams & {
-    location: string;
-}): void {
-    trackEvent("linkedin_click", {
+}: LanguageParams & LocationParams): void {
+    trackEvent(AnalyticsEvents.LINKEDIN_CLICK, {
         language,
         location,
     });
@@ -50,27 +66,10 @@ export function trackLinkedinClick({
 export function trackGithubClick({
     language,
     location,
-}: BaseEventParams & {
-    location: string;
-}): void {
-    trackEvent("github_click", {
+}: LanguageParams & LocationParams): void {
+    trackEvent(AnalyticsEvents.GITHUB_CLICK, {
         language,
         location,
-    });
-}
-
-
-
-export function trackLanguageChange({
-    previousLanguage,
-    newLanguage,
-}: {
-    previousLanguage: PortfolioLanguage;
-    newLanguage: PortfolioLanguage;
-}): void {
-    trackEvent("language_change", {
-        previous_language: previousLanguage,
-        language: newLanguage,
     });
 }
 
@@ -78,11 +77,11 @@ export function trackProjectView({
     language,
     projectName,
     projectCategory,
-}: ProjectEventParams): void {
-    trackEvent("project_view", {
+}: ProjectParams): void {
+    trackEvent(AnalyticsEvents.PROJECT_VIEW, {
         language,
         project_name: projectName,
-        project_category: projectCategory,
+        project_category: projectCategory ?? "unknown",
     });
 }
 
@@ -91,13 +90,13 @@ export function trackProjectClick({
     projectName,
     projectCategory,
     destination,
-}: ProjectEventParams & {
-    destination: "demo" | "github" | "details";
+}: ProjectParams & {
+    destination: ProjectDestination;
 }): void {
-    trackEvent("project_click", {
+    trackEvent(AnalyticsEvents.PROJECT_CLICK, {
         language,
         project_name: projectName,
-        project_category: projectCategory,
+        project_category: projectCategory ?? "unknown",
         destination,
     });
 }
@@ -105,22 +104,35 @@ export function trackProjectClick({
 export function trackSectionView({
     language,
     sectionName,
-}: BaseEventParams & {
+}: LanguageParams & {
     sectionName: string;
 }): void {
-    trackEvent("section_view", {
+    trackEvent(AnalyticsEvents.SECTION_VIEW, {
         language,
         section_name: sectionName,
+    });
+}
+
+export function trackLanguageChange({
+    previousLanguage,
+    newLanguage,
+}: {
+    previousLanguage: PortfolioLanguage;
+    newLanguage: PortfolioLanguage;
+}): void {
+    trackEvent(AnalyticsEvents.LANGUAGE_CHANGE, {
+        previous_language: previousLanguage,
+        language: newLanguage,
     });
 }
 
 export function trackScrollProgress({
     language,
     percent,
-}: BaseEventParams & {
-    percent: 25 | 50 | 75 | 100;
+}: LanguageParams & {
+    percent: ScrollPercent;
 }): void {
-    trackEvent("scroll_progress", {
+    trackEvent(AnalyticsEvents.SCROLL_PROGRESS, {
         language,
         percent,
     });
@@ -129,12 +141,26 @@ export function trackScrollProgress({
 export function trackTimeOnSite({
     language,
     seconds,
-}: BaseEventParams & {
+}: LanguageParams & {
     seconds: number;
 }): void {
-    trackEvent("time_on_site", {
+    trackEvent(AnalyticsEvents.TIME_ON_SITE, {
         language,
         seconds,
     });
 }
 
+export function trackCvDownload({
+    language,
+    fileName,
+    location,
+}: LanguageParams &
+    LocationParams & {
+        fileName: string;
+    }): void {
+    trackEvent(AnalyticsEvents.CV_DOWNLOAD, {
+        language,
+        file_name: fileName,
+        location,
+    });
+}

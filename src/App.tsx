@@ -13,10 +13,7 @@ import { trackPageView } from "./analytics/analytics";
 function App() {
   useScrollReveal();
   useEffect(() => {
-    trackPageView(
-      `${window.location.pathname}${window.location.search}`,
-      document.title,
-    );
+    trackPageView(window.location.pathname);
   }, []);
   return (
     <>
