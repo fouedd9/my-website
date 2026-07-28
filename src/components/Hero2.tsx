@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { Icon } from "@iconify/react";
-
+import { trackWhatsappClick } from "@/analytics/events";
 import PrismBackground from "@/components/backgrounds/PrismBackground";
 import SpecularButton from "@/components/ui/SpecularButton";
 import { useTranslation } from "@/i18n";
+import { Locations } from "@/analytics/constants";
 
 interface StatItem {
   target: number;
@@ -242,6 +243,12 @@ function Hero2() {
 
           <SpecularButton
             href={whatsappUrl}
+            onClick={() =>
+              trackWhatsappClick({
+                language,
+                location: Locations.HERO,
+              })
+            }
             target="_blank"
             rel="noopener noreferrer"
             size="md"

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FR, GB } from "country-flag-icons/react/3x2";
-
+import { trackLanguageChange } from "@/analytics/events";
 import { useTranslation } from "@/i18n";
 import type { Language } from "@/i18n";
 
@@ -46,6 +46,11 @@ export default function LanguageSwitcher() {
 
     window.setTimeout(() => {
       setLanguage(nextLanguage);
+      trackLanguageChange({
+        previousLanguage: language,
+        newLanguage: nextLanguage,
+      });
+      setIsFlipping(false);
     }, 120);
   };
 

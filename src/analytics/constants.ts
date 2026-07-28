@@ -7,3 +7,10 @@ export const Sections = {
     PROJECTS: "projects",
     CONTACT: "contact",
 } as const;
+
+export const Locations = {
+    HERO: "hero",
+    NAVBAR: "navbar",
+    FOOTER: "footer",
+    PROJECT_CARD: "project_card",
+} as const;

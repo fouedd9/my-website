@@ -1,6 +1,8 @@
 import { Icon } from "@iconify/react";
 
 import { useTranslation } from "@/i18n";
+import { trackWhatsappClick } from "@/analytics/events";
+import { Locations } from "@/analytics/constants";
 
 interface SocialLink {
   label: string;
@@ -413,6 +415,12 @@ export default function Footer() {
           <div className="flex items-center gap-2">
             {socialLinks.map((link) => (
               <a
+                onClick={() =>
+                  trackWhatsappClick({
+                    language,
+                    location: Locations.HERO,
+                  })
+                }
                 key={link.label}
                 href={link.href}
                 target={link.external ? "_blank" : undefined}

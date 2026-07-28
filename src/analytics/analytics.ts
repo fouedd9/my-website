@@ -3,7 +3,7 @@ import ReactGA from "react-ga4";
 const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
 
 export function initAnalytics(): void {
-    console.log("GA Measurement ID:", measurementId);
+
 
     if (!measurementId) {
         console.warn("Google Analytics Measurement ID is missing.");
@@ -12,7 +12,7 @@ export function initAnalytics(): void {
 
     ReactGA.initialize(measurementId);
 
-    console.log("✅ Google Analytics initialized:", measurementId);
+
 }
 
 export function trackPageView(path: string): void {
