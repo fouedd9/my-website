@@ -7,10 +7,17 @@ import Education from "./components/Education";
 import Hero2 from "./components/Hero2";
 import ProjectsSection from "@/components/projects/ProjectsSection";
 import Footer from "./components/Footer";
+import { useEffect } from "react";
+import { trackPageView } from "./analytics/analytics";
 
 function App() {
   useScrollReveal();
-
+  useEffect(() => {
+    trackPageView(
+      `${window.location.pathname}${window.location.search}`,
+      document.title,
+    );
+  }, []);
   return (
     <>
       <Navbar />
