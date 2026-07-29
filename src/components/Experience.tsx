@@ -6,6 +6,7 @@ interface ExperienceItem {
   id: number;
   position: string;
   company: string;
+  company_url: string;
   period: string;
   description: string;
   missions: string[];
@@ -121,11 +122,13 @@ function ExperienceCard({
                 {experience.position}
               </h3>
 
-              <p
-                className={`mt-1 text-sm font-medium ${experience.companyColor}`}
-              >
-                {experience.company}
-              </p>
+              <a href={experience.company_url}>
+                <p
+                  className={`mt-1 text-sm font-medium ${experience.companyColor}`}
+                >
+                  {experience.company}
+                </p>
+              </a>
             </div>
 
             <span className="self-start whitespace-nowrap rounded-full bg-white/5 px-3 py-1 text-xs font-light text-neutral-500 sm:self-auto">
@@ -183,6 +186,7 @@ function Experience() {
             id: 1,
             position: "Développeur Front End",
             company: "ASENDIT",
+            company_url: "https://yeetch.co/fr",
             period: "Avril 2022 — Présent",
             description:
               "Développement de la solution SaaS Yeetch SIRH intégrée à Microsoft Teams pour automatiser la gestion RH.",
@@ -241,6 +245,7 @@ function Experience() {
             id: 2,
             position: "Développeur Full Stack",
             company: "BACHMANN RDS",
+            company_url: "https://bachmannrds.com/",
             period: "Fév. 2021 — Mars 2022",
             description:
               "Développement full stack de solutions web au sein d’une équipe Agile, de la conception à la mise en production.",
@@ -285,6 +290,7 @@ function Experience() {
             id: 1,
             position: "Front-End Developer",
             company: "ASENDIT",
+            company_url: "https://yeetch.co/fr",
             period: "April 2022 — Present",
             description:
               "Development of Yeetch, an HR SaaS platform integrated with Microsoft Teams to automate and simplify HR management.",
@@ -343,6 +349,7 @@ function Experience() {
             id: 2,
             position: "Full-Stack Developer",
             company: "BACHMANN RDS",
+            company_url: "https://bachmannrds.com/",
             period: "Feb. 2021 — March 2022",
             description:
               "Full-stack development of web solutions within an Agile team, from initial design through to production deployment.",
