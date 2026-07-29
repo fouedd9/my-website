@@ -248,7 +248,14 @@ function Experience() {
             glowColor: "bg-purple-500/5",
             dotColor: "bg-purple-500",
             delay: "0.2s",
-            missions: [],
+            missions: [
+              "Conception et développement d’une application tactile interactive en React.js pour un salon international de la défense, offrant une expérience immersive de présentation des produits et solutions militaires",
+              "Développement de fonctionnalités évolutives : catalogue produits, gestion des visiteurs, inscription à la newsletter et formulaires de contact dynamiques",
+              "Collaboration directe avec les dirigeants et responsables métiers afin de transformer rapidement les besoins fonctionnels en solutions prêtes pour la production",
+              "Optimisation des performances et de la réactivité de l’application, garantissant une expérience fluide pendant un événement accueillant plus de 3 000 visiteurs",
+              "Mise en place d’une architecture modulaire et maintenable, facilitant les évolutions et réduisant le temps de développement des nouvelles fonctionnalités de 40%",
+              "Participation au développement Full Stack avec React.js, Node.js et Express, ainsi qu’à l’intégration d’API REST",
+            ],
             technologies: [
               {
                 name: "React.js",
@@ -343,7 +350,14 @@ function Experience() {
             glowColor: "bg-purple-500/5",
             dotColor: "bg-purple-500",
             delay: "0.2s",
-            missions: [],
+            missions: [
+              "Designed and developed a React.js interactive touchscreen application for a major international defense exhibition, delivering an immersive experience to showcase military products and solutions",
+              "Built scalable features including product catalogs, visitor management, newsletter subscriptions, and dynamic contact workflows",
+              "Collaborated directly with executives and business stakeholders to rapidly transform business requirements into production-ready solutions",
+              "Optimized application performance and responsiveness, ensuring a seamless experience throughout an event attended by more than 3,000 visitors",
+              "Designed a modular and maintainable architecture, reducing the time required to deliver new features by approximately 40%",
+              "Contributed to full-stack development with React.js, Node.js, Express, and REST API integration",
+            ],
             technologies: [
               {
                 name: "React.js",
