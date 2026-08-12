@@ -76,7 +76,7 @@ export const projectsFR: Project[] = [
       "OAuth 2.0",
     ],
     image: "/projects/ai-agent.png",
-    url: "#",
+    url: "https://schedule-ai-agent-front-end.vercel.app/",
     year: "2026",
     accent: "green",
   },
