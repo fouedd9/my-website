@@ -122,6 +122,30 @@ export const projectsFR: Project[] = [
     year: "2026",
     accent: "amber",
   },
+  {
+    id: "playtypescript",
+    category: "EDTECH SAAS",
+    title: "PlayTypeScript",
+    headline:
+      "Une plateforme interactive pour apprendre et maîtriser TypeScript.",
+    description:
+      "J’ai conçu et développé une plateforme SaaS d’apprentissage de TypeScript avec parcours progressif, quiz interactifs, suivi de progression, XP, authentification sécurisée et accès premium via Stripe.",
+    highlight: "Plateforme SaaS complète avec paiement Stripe",
+    technologies: [
+      "React",
+      "TypeScript",
+      "Node.js",
+      "Express",
+      "PostgreSQL",
+      "Prisma",
+      "Stripe",
+      "React Query",
+    ],
+    image: "/projects/playtypescript.png",
+    url: "https://playtypescript-web-omega.vercel.app/",
+    year: "2026",
+    accent: "blue",
+  },
 ];
 
 export const projectsEN: Project[] = [
@@ -230,6 +254,30 @@ export const projectsEN: Project[] = [
     url: "https://lumina-fr.vercel.app/",
     year: "2026",
     accent: "amber",
+  },
+  {
+    id: "playtypescript",
+    category: "EDTECH SAAS",
+    title: "PlayTypeScript",
+    headline:
+      "An interactive platform designed to learn and master TypeScript.",
+    description:
+      "I designed and developed a TypeScript learning SaaS platform featuring a progressive learning path, interactive quizzes, progress tracking, XP, secure authentication, and premium access powered by Stripe.",
+    highlight: "Full SaaS platform with Stripe payments",
+    technologies: [
+      "React",
+      "TypeScript",
+      "Node.js",
+      "Express",
+      "PostgreSQL",
+      "Prisma",
+      "Stripe",
+      "React Query",
+    ],
+    image: "/projects/playtypescript.png",
+    url: "https://playtypescript-web-omega.vercel.app/",
+    year: "2026",
+    accent: "blue",
   },
 ];
 
