@@ -229,42 +229,59 @@ export default function ProjectsSection() {
           </p>
         </div>
 
-        <ScrollStack
-          useWindowScroll
-          itemDistance={130}
-          itemStackDistance={30}
-          stackPosition="4%"
-          scaleEndPosition="4%"
-          baseScale={0.9}
-          itemScale={0.02}
-          rotationAmount={0}
-          blurAmount={0}
-        >
+        {/* Mobile : affichage normal, aucune card coupée */}
+        <div className="space-y-8 md:hidden">
           {displayedProjects.map((project) => (
-            <ScrollStackItem
-              itemClassName="
-    min-h-[780px]
-    border-0
-    bg-transparent
-    p-0
-    shadow-none
-    sm:min-h-[720px]
-    md:h-80
-    md:min-h-0
-  "
-            >
-              <ProjectCard
-                project={project}
-                onActivate={() => {
-                  setActiveAccent(project.accent);
-                }}
-                onDeactivate={() => {
-                  setActiveAccent(null);
-                }}
-              />
-            </ScrollStackItem>
+            <ProjectCard
+              key={project.id}
+              project={project}
+              onActivate={() => {
+                setActiveAccent(project.accent);
+              }}
+              onDeactivate={() => {
+                setActiveAccent(null);
+              }}
+            />
           ))}
-        </ScrollStack>
+        </div>
+
+        {/* Desktop / tablette : ScrollStack */}
+        <div className="hidden md:block">
+          <ScrollStack
+            useWindowScroll
+            itemDistance={130}
+            itemStackDistance={30}
+            stackPosition="4%"
+            scaleEndPosition="4%"
+            baseScale={0.9}
+            itemScale={0.02}
+            rotationAmount={0}
+            blurAmount={0}
+          >
+            {displayedProjects.map((project) => (
+              <ScrollStackItem
+                key={project.id}
+                itemClassName="
+          h-80
+          border-0
+          bg-transparent
+          p-0
+          shadow-none
+        "
+              >
+                <ProjectCard
+                  project={project}
+                  onActivate={() => {
+                    setActiveAccent(project.accent);
+                  }}
+                  onDeactivate={() => {
+                    setActiveAccent(null);
+                  }}
+                />
+              </ScrollStackItem>
+            ))}
+          </ScrollStack>
+        </div>
       </div>
     </section>
   );
