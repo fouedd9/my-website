@@ -242,15 +242,16 @@ export default function ProjectsSection() {
         >
           {displayedProjects.map((project) => (
             <ScrollStackItem
-              key={project.id}
               itemClassName="
-                h-auto
-                border-0
-                bg-transparent
-                p-0
-                shadow-none
-                md:h-80
-              "
+    min-h-[780px]
+    border-0
+    bg-transparent
+    p-0
+    shadow-none
+    sm:min-h-[720px]
+    md:h-80
+    md:min-h-0
+  "
             >
               <ProjectCard
                 project={project}
